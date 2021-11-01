@@ -1,0 +1,47 @@
+/* css variables */
+:root {
+  /* sizes */
+  --size-app-width: 100vw;
+  --size-app-height: 100vh;
+  --size-header-height: 50px;
+  --size-footer-height: 50px;
+
+  /* colors */
+  --color-dark-grey-accent: #3c3c3c;
+  --color-dark-black-primary: #1e1e1e;
+  --color-light-grey-accent: #dddddd;
+  --color-light-ltgrey-accent: #f3f3f3;
+  --color-light-white-primary: #ffffff;
+  --color-dark-font-ltgrey: #f3f3f3;
+  --color-dark-font-white: #ffffff;
+  --color-light-font-black: #1e1e1e;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+#root {
+  width: var(--size-app-width);
+  height: var(--size-app-height);
+  display: flex;
+
+  /* REMOVE THIS WHEN THE BACKEND IS CONNECTED */
+  background-color: var(--color-dark-black-primary);
+  color: var(--color-dark-font-white);
+}
+
+.dark-mode {
+  /* DARK AND LIGHT MODES SHOULD BE TIED TO #ROOT! */
+  background-color: var(--color-dark-black-primary);
+  color: var(--color-dark-font-ltgrey);
+}
+
+.light-mode {
+  /* DARK AND LIGHT MODES SHOULD BE TIED TO #ROOT! */
+  background-color: var(--color-light-white-primary);
+  color: var(--color-light-font-black);
+}
