@@ -1,0 +1,26 @@
+header {
+  height: var(--size-header-height);
+  width: 100%;
+  display: flex;
+}
+
+.div-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 50px;
+}
+
+.user-container {
+  width: 250px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#user-pic img {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  padding: 4px;
+}

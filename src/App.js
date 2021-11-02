@@ -1,40 +1,44 @@
 // import firebase files
-import { initializeApp } from 'firebase/app';
-import {
-  getAuth,
-  onAuthStateChanged,
-  GoogleAuthProvider,
-  signInWithPopup,
-  signOut,
-} from 'firebase/auth';
-import { getAnalytics } from 'firebase/analytics';
+import { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
 import { getFirebaseConfig } from './firebase-config';
+import { initializeApp } from 'firebase/app';
 
-// importing componenets
-import Head from './components/Head';
+// importing react components
+import { useState } from 'react';
+import Head from './components/head/Head';
 
-// importing css
+// importing css and other variables
+import photo from './img/profile_placeholder.png'
 import './App.css';
 
 function App() {
+  // states
+  const [userStatusForHeader, setUserStatusForHeader] = useState(0);
+  const [userName, setUserName] = useState('J. Doe');
+  const [profilePicUrl, setProfilePicUrl] = useState(photo);
+
   // Google Sign-in
-  const signIn = async () => {
+  const signInUser = async () => {
     var provider = new GoogleAuthProvider();
     await signInWithPopup(getAuth(), provider);
   }
 
-  const signOut = () => {
+  // Google Sign-out
+  const signOutUser = () => {
     signOut(getAuth());
   }
 
+  // Firebase init
   const initFirebaseAuth = () => {
     onAuthStateChanged(getAuth(), authStateObserver);
   }
 
+  // get signed-in user's profile pic
   const getProfilePicUrl = () => {
-    return getAuth().currentUser.photoURL || '/images/profiel_placeholder.png';
+    return getAuth().currentUser.photoURL || photo;
   }
 
+  // get signed-in user's name
   const getUserName = () => {
     return getAuth().currentUser.displayName;
   }
@@ -42,40 +46,28 @@ function App() {
   const isUserSignedIn = () => {
     return !!getAuth().currentUser;
   }
-
+  
+  // watching whether or not a user remains signed in
   const authStateObserver = (user) => {
-    // user is signed in!
-    if(user) {
-      //get the signed-in user profile pic and name
-      var profilePicUrl = getProfilePicUrl();
-      var userName = getUserName();
-
-      // set profile pic and username
-
-      // show user's profile and sign out button 
-
-      // hide sign-in button
-
+    if (user) {
+      // User is signed In!  Get the signed-in user's profile pic and name.
+      setProfilePicUrl(getProfilePicUrl());
+      setUserName(getUserName());
+      setUserStatusForHeader(1);
     } else {
-      // user  is signed out!
-      // hide user's profile and sign-out button
-
-      // show sign-in button
+      // User is signed out!
+      setUserStatusForHeader(0);
     }
-    
-    // shortcuts to DOM Elements
-    const signInButtonElement = document.getElementById('sign-in');
-    
   }
   
+  // init firebase App and firebase Auth
   const firebaseAppConfig = getFirebaseConfig();
-  const app = initializeApp(firebaseAppConfig);
-  const analytics = getAnalytics(app);
-  
+  initializeApp(firebaseAppConfig);
+  initFirebaseAuth();
 
   return (
     <div className="App">
-      <Head />
+      <Head userStatusForHeader={userStatusForHeader} signInUser={signInUser} signOutUser={signOutUser} userName={userName} profilePicUrl={profilePicUrl}/>
       hello world
     </div>
   );
