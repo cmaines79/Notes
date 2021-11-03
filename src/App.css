@@ -3,8 +3,12 @@
   /* sizes */
   --size-app-width: 100vw;
   --size-app-height: 100vh;
-  --size-header-height: 50px;
-  --size-footer-height: 50px;
+  --size-header-height: 75px;
+  --size-footer-height: 1.5625rem;
+  --size-main-height: calc(
+    var(--size-app-height) - var(--size-footer-height) -
+      var(--size-header-height) - 20px
+  );
 
   /* colors */
   --color-dark-grey-accent: #3c3c3c;
@@ -35,9 +39,20 @@
   color: var(--color-dark-font-white);
 }
 
-.App {
+.container {
   width: 100%;
-  height: 100%;
+  padding: 0 3.125rem;
+}
+
+button {
+  background-color: var(--color-dark-grey-accent);
+  color: var(--color-accent-orange);
+  padding: 0.1875rem 0.5rem;
+  border-radius: 0.625rem;
+}
+
+button:hover {
+  cursor: pointer;
 }
 
 .dark-mode {

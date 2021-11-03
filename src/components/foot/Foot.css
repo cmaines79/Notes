@@ -1,0 +1,20 @@
+.footer {
+  height: var(--size-footer-height);
+  background-color: var(--color-accent-orange);
+  display: flex;
+}
+
+.footer-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer-message p {
+  margin-right: 50px;
+}
+
+a {
+  color: var(--color-dark-font-white);
+  text-decoration: none;
+}

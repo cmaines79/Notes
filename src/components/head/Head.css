@@ -2,25 +2,38 @@ header {
   height: var(--size-header-height);
   width: 100%;
   display: flex;
+  padding: 5px 0;
 }
 
 .div-wrapper {
   width: 100%;
   display: flex;
   justify-content: space-between;
-  padding: 0 50px;
+  align-items: center;
 }
 
 .user-container {
-  width: 250px;
+  width: 17.1875rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
+#sign-in {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  margin-right: 0;
+}
+
+#sign-in i {
+  margin-right: 5px;
+}
+
 #user-pic img {
-  height: 40px;
-  width: 40px;
+  height: 2.5rem;
+  width: 2.5rem;
   border-radius: 50%;
-  padding: 4px;
+  padding: 0.25rem;
+  border: 1px solid var(--color-accent-orange);
 }

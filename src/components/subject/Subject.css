@@ -1,0 +1,6 @@
+.list-of-subjects {
+  width: 100px;
+  height: var(--size-main-height);
+  background: var(--color-dark-grey-accent);
+  margin-right: 5px;
+}

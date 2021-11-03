@@ -1,0 +1,93 @@
+.notes {
+  width: 100%;
+  padding-left: 20px;
+}
+.note-content {
+  width: 100%;
+  height: var(--size-main-height);
+  display: flex;
+  /* background-color: var(--color-dark-grey-accent); */
+}
+
+form {
+  width: 100%;
+}
+input {
+  width: 60%;
+  height: 26px;
+  background-color: var(--color-dark-grey-accent);
+  color: var(--color-dark-font-white);
+  margin-right: 15px;
+}
+
+input:active,
+input:focus {
+  outline: none;
+}
+
+label,
+p {
+  font-size: 0.83em;
+}
+
+.meeting-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.meeting-info {
+  display: flex;
+  flex-direction: column;
+  margin: 20px 0;
+}
+
+.meeting-info input {
+  margin-bottom: 10px;
+}
+
+.attendees {
+  display: flex;
+  flex-direction: column;
+  margin: 20px 0;
+}
+.attendee-lists {
+  display: flex;
+}
+
+.their-attendees,
+.our-attendees {
+  width: 45%;
+  margin: 0 2%;
+  display: flex;
+  flex-direction: column;
+}
+
+.team-members {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  padding: 0 3px;
+}
+.team-members div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.team-members div a {
+  text-decoration: none;
+  color: var(--color-dark-font-white);
+  font-size: 10px;
+}
+
+textarea {
+  width: 100%;
+  background-color: var(--color-dark-grey-accent);
+  color: var(--color-dark-font-white);
+  resize: none;
+}
+
+textarea:active,
+textarea:focus {
+  outline: none;
+}

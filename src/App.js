@@ -4,8 +4,10 @@ import { getFirebaseConfig } from './firebase-config';
 import { initializeApp } from 'firebase/app';
 
 // importing react components
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { useState } from 'react';
-import Head from './components/head/Head';
+import Home from './components/home/Home';
+import Welcome from './components/welcome/Welcome';
 
 // importing css and other variables
 import photo from './img/profile_placeholder.png'
@@ -65,11 +67,21 @@ function App() {
   initializeApp(firebaseAppConfig);
   initFirebaseAuth();
 
+  console.log()
+
   return (
-    <div className="App">
-      <Head userStatusForHeader={userStatusForHeader} signInUser={signInUser} signOutUser={signOutUser} userName={userName} profilePicUrl={profilePicUrl}/>
-      hello world
-    </div>
+    <Router>
+      <Switch>
+        <Route exact path="/">
+          {isUserSignedIn() ? (
+              <Home userStatusForHeader={userStatusForHeader} signInUser={signInUser} signOutUser={signOutUser} userName={userName} profilePicUrl={profilePicUrl}/>
+          ) : (
+            <Welcome userStatusForHeader={userStatusForHeader} signInUser={signInUser} signOutUser={signOutUser} userName={userName} profilePicUrl={profilePicUrl}/>
+          )}
+         
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 

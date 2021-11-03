@@ -1,0 +1,27 @@
+.welcome-screen {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.welcome-message {
+  width: 75%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  margin: auto auto;
+  padding: 1.5625rem;
+  border: 0.125rem solid var(--color-accent-orange);
+  border-radius: 3.125rem;
+}
+
+.welcome-message h3 {
+  margin-bottom: 1.5625rem;
+}
+
+.welcome-message h2 {
+  margin: 3.125rem 0;
+  text-align: center;
+}
