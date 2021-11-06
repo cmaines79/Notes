@@ -61,6 +61,7 @@ function App() {
       setUserStatusForHeader(0);
     }
   }
+  // console.log(getAuth().currentUser.uid);
   
   // init firebase App and firebase Auth
   const firebaseAppConfig = getFirebaseConfig();

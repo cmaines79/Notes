@@ -7,7 +7,7 @@
   --size-footer-height: 1.5625rem;
   --size-main-height: calc(
     var(--size-app-height) - var(--size-footer-height) -
-      var(--size-header-height) - 20px
+      var(--size-header-height) - 30px
   );
 
   /* colors */

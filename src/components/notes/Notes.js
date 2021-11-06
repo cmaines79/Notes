@@ -4,7 +4,10 @@ import './Notes.css'
 const Notes = () => {
     return (
         <div className="notes">
-            <h5>Meeting Notes</h5>
+            <div className="note-header">
+                <h5>Meeting Notes</h5>
+                <button>New Note</button>
+            </div>
             <div className="note-content">
                 <form action="">
                     {/* meeting info area */}
