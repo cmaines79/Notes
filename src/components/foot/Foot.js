@@ -3,7 +3,7 @@ import './Foot.css';
 
 const Foot = () => {
     return (
-        <div className="footer">
+        <div className="footer invert">
             <div className="container footer-message">
                 <p><span dangerouslySetInnerHTML={{"__html": "&copy;"}}/> 2021 Maines Industries for The Odin Project</p>
                 <p>paperTrail logo belongs to <a href="https://freebiesupply.com/logos/papertrail-logo/">Freebie Supply</a></p>

@@ -17,6 +17,7 @@
 form {
   width: 100%;
 }
+
 input {
   width: 60%;
   height: 26px;
@@ -95,4 +96,10 @@ textarea {
 textarea:active,
 textarea:focus {
   outline: none;
+}
+
+@media screen and (max-height: 930px) {
+  .note-content {
+    overflow-y: scroll;
+  }
 }

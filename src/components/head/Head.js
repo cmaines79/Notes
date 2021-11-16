@@ -12,6 +12,7 @@ const Head = ({ userStatusForHeader, signInUser, signOutUser, userName, profileP
     const userPicElement = useRef();
     const userNameElement = useRef();
     const userImageElement = useRef();
+    const modeButton = useRef();
 
     // function to change the attributes of the header DOM elements.  Using the signInButtonElement to determine if the DOM has been loaded or not in order for this logic to work correctly
     if(userStatusForHeader === 1 && signInButtonElement.current !== undefined) {
@@ -40,6 +41,19 @@ const Head = ({ userStatusForHeader, signInUser, signOutUser, userName, profileP
         signInButtonElement.current.style.display = 'flex';
     }
 
+    const lightDarkModeToggle = () => {
+        // change the label on the button
+        modeButton.current.innerText === 'Light Mode' ? modeButton.current.innerText = "Dark Mode" : modeButton.current.innerText = "Light Mode";
+
+        // apply global mode change
+        document.documentElement.classList.toggle('dark-mode');
+
+        // Antoher invert to ensure the items we don't changed aren't <-- this isn't working!!!
+        // document.querySelector('invert').forEach((result) => {
+        //     result.classList.toggle('invert');
+        // })
+    }
+
     return (
         <header>
             <div className="div-wrapper container">
@@ -49,10 +63,11 @@ const Head = ({ userStatusForHeader, signInUser, signOutUser, userName, profileP
                 <div className="nav">
                     {/* nav goes here => do we create a separate nav componenet? */}
                     {/* the size of this element will be calculated based upon the .logo and .user */}
+                    <button id='toggle-light-dark-mode' ref={modeButton} onClick={lightDarkModeToggle}>Light Mode</button>
                 </div>
                 <div className="user-container">
                     <div hidden id="user-pic" ref={userPicElement}>
-                        <img src={profilePicUrl} alt="User" ref={userImageElement} />
+                        <img className="" src={profilePicUrl} alt="User" ref={userImageElement} />
                     </div>
                     <div hidden id="user-name" ref={userNameElement}></div>
                     <button hidden id="sign-out" ref={signOutButtonElement} onClick={() => signOutUser()}>Sign Out</button>
