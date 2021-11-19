@@ -120,7 +120,7 @@ function App() {
       <Switch>
         <Route exact path="/">
           {isUserSignedIn() ? (
-              <Home userStatusForHeader={userStatusForHeader} signInUser={signInUser} signOutUser={signOutUser} userName={userName} profilePicUrl={profilePicUrl}/>
+              <Home userStatusForHeader={userStatusForHeader} signInUser={signInUser} signOutUser={signOutUser} userName={userName} profilePicUrl={profilePicUrl} db={db}/>
           ) : (
             <Welcome userStatusForHeader={userStatusForHeader} signInUser={signInUser} signOutUser={signOutUser} userName={userName} profilePicUrl={profilePicUrl}/>
           )}
