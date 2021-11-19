@@ -35,10 +35,10 @@
   filter: invert(1) hue-rotate(180deg);
 }
 
-.invert {
-  /* attach this class to object we what to be uneffect by the dark mode */
-  /* filter: invert(1) hue-rotate(180deg); */
-}
+/* .invert { */
+/* attach this class to object we what to be uneffect by the dark mode */
+/* filter: invert(1) hue-rotate(180deg); */
+/* } */
 
 #root {
   width: var(--size-app-width);
