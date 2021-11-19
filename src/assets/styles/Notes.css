@@ -26,6 +26,12 @@ input {
   margin-right: 15px;
 }
 
+#meetingId {
+  width: 50px;
+  background: transparent;
+  border: none;
+}
+
 input:active,
 input:focus {
   outline: none;

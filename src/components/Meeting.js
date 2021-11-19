@@ -3,7 +3,6 @@ import '../assets/styles/Meeting.css';
 
 const Meeting = ({ meetings, updateNotes }) => {
     const updateNoteContent = (e) => {
-        console.log(`target id is: ${e.target.id}`);
         updateNotes(e.target.id);
     }
 

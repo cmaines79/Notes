@@ -1,23 +1,19 @@
 import React from 'react';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import '../assets/styles/Notes.css';
 
-const Notes = ({ db, activeNote }) => {
+const Notes = ({ db, activeNote, getFireBaseNotesDoc, noteToggle, setNoteToggleToFalse, contacts, subjects, updateSubjects, firebaseNotes }) => {
     // TO-DO
         // New Note Button
         // get data from firebase to populate the contact table
         // get data from firebase to populate the subject table by customer
         // useEffect to set the document title with the subject? (on exit of input field?)
-        // onSave
-            // useRef() to get the content from all of the input fields
-            // if note has an ID, save against ID, else save with new ID
-            // save them to a formatted JSON Object
-            // upload to firebase
-            // clear attendee arrays
+
 
     // refs
+    const meetingIdInputElement = useRef();
     const contactInputElement = useRef();
     const subjectInputElement = useRef();
     const dateInputElement = useRef();
@@ -27,6 +23,7 @@ const Notes = ({ db, activeNote }) => {
 
     // vars
     const user = getAuth().currentUser.uid;
+    let meetingIDNumber = 0;
 
     // states
     const [ourTeam, setOurTeam] = useState([]);
@@ -106,85 +103,146 @@ const Notes = ({ db, activeNote }) => {
         }
     }    
 
+    const validateInputs = () => {
+        const isContact = contactInputElement.current.value == "";
+        const isSubject = subjectInputElement.current.value == "";
+        const isDate = dateInputElement.current.value == "";
+        const isOurTeam = ourTeamElement.current.value === [];
+        const isTheirTeam = theirTeamElement.current.value === [];
+        const isNotes = notesElement.current.value == "";
+        
+        if(isContact) {
+            alert("Please enter a Contact");
+            return false;
+        } else if(isSubject) {
+            alert("Please enter a Subject");
+            return false;
+        } else if(isDate) {
+            alert("Please enter a Meeting  Date");
+            return false;
+        } else if(isOurTeam) {
+            alert("Please enter attendees from our team");
+            return false;
+        } else if(isTheirTeam) {
+            alert("Please enter attendees from their team");
+            return false;
+        } else if(isNotes) {
+            alert("Please enter the Notes from this meeting");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     const saveNotes = async(e) => {
         e.preventDefault();
-        // upload to firebase
-        // clear attendee arrays
-        // make comments so this make sense to me later
-        const meetingNotes = [
-        {
-            meetingId: await getRecordCount(),
-            contact: contactInputElement.current.value,
-            subject: subjectInputElement.current.value,
-            meetingDate: dateInputElement.current.value,
-            ourTeam: ourTeam,
-            theirTeam: theirTeam,
-            notes: notesElement.current.value,
-        },
-        {
-            meetingId: await getRecordCount(),
-            contact: contactInputElement.current.value,
-            subject: subjectInputElement.current.value,
-            meetingDate: dateInputElement.current.value,
-            ourTeam: ourTeam,
-            theirTeam: theirTeam,
-            notes: notesElement.current.value,
-        },
-        ]
+        // onSave
+            // clear attendee arrays
 
-        // get current notes from fireStore
-        // const docSnap = await getDoc(doc(db, user, "notes"));
-
-        // check to see if the note document exists
-        // if (docSnap.exists()) {
-        //     let currentNotes = docSnap.data().meetingNotes;
+        // data validation 
+        if(validateInputs()) {
+            // see if this is a new note or an edit to an exisiting one
+            meetingIdInputElement.current.value !== '' ? meetingIDNumber = meetingIdInputElement : meetingIDNumber = await getRecordCount();
             
-        //     currentNotes.forEach((note) => {
-        //         FireStoreNotes.push(note);
-        //     })
+            // create JSON formatted object
+            const meetingNotes = {
+                meetingId: meetingIDNumber,
+                contact: contactInputElement.current.value,
+                subject: subjectInputElement.current.value,
+                meetingDate: dateInputElement.current.value,
+                ourTeam: ourTeam,
+                theirTeam: theirTeam,
+                notes: notesElement.current.value,
+            }
 
-        //     console.log(FireStoreNotes);
-            
-        // } else {
-        //     alert("No data exits");
-        // }
+            // get the current firebaseNotes and add our new note to it.
+            const newFirebaseNotes = firebaseNotes;
+            firebaseNotes.push(meetingNotes);
 
-        try{
-            await setDoc(doc(db, user, "notes"), {
-               meetingNotes:meetingNotes
-            })
+            //  upload new firebaseNotes to firebase
+            try{
+                await setDoc(doc(db, user, "notes"), {
+                   meetingNotes: newFirebaseNotes
+                })
 
-        } catch (e) {
-            console.error(e);
-        }
-        
+            } catch (e) {
+                console.error(e);
+            }
+
+            // update our firebaseNote object
+            getFireBaseNotesDoc();
+
+            // clear the attendee arrays
+            setOurTeam([]);
+            setTheirTeam([]);
+        }   
     }
+
+    const populateActiveNote = () => {
+        meetingIdInputElement.current.value = activeNote[0].meetingId;
+        contactInputElement.current.value = activeNote[0].contact;
+        subjectInputElement.current.value = activeNote[0].subject;
+        dateInputElement.current.value = activeNote[0].meetingDate;
+        notesElement.current.value = activeNote[0].notes;
+        setOurTeam(activeNote[0].ourTeam);
+        setTheirTeam(activeNote[0].theirTeam);
+    }
+
+    const createNewNote = () => {
+        meetingIdInputElement.current.value = "";
+        contactInputElement.current.value = "";
+        subjectInputElement.current.value = "";
+        dateInputElement.current.value = "";
+        notesElement.current.value = "";
+        setOurTeam([]);
+        setTheirTeam([]);
+    }
+
+    const getSubjectList = (e) => {
+        updateSubjects(e.target.value);
+    }
+
+    useEffect(() => {
+        if(noteToggle === 1) {
+            populateActiveNote();
+            setNoteToggleToFalse();
+        }
+    },[noteToggle])
+
+    useEffect(() => {
+        document.title = "paperTrail";
+    },[])
 
     return (
         <div className="notes">
             <div className="note-header">
                 <h5>Meeting Notes</h5>
-                <button>New Note</button>
+                <button onClick={createNewNote} >New Note</button>
             </div>
             <div className="note-content">
                 <form action="">
                     {/* meeting info area */}
                     <div className="meeting-wraper">
                         <div className="meeting-info">
+                        <input type="text" name="meetingId" id="meetingId" ref={meetingIdInputElement} />
                             <h5>Give me some details on the meeting</h5>
                                 <label htmlFor="contact">Contact</label>
-                                <input type="text" list="contact-list" id="contact" name="contact" ref={contactInputElement}/>
+                                <input type="text" list="contact-list" id="contact" name="contact" ref={contactInputElement} onChange={getSubjectList}/>
                                 <datalist id="contact-list">
-                                    {/* this needs to become a data query */}
-                                    <option>Corning</option>
-                                    <option>BAE</option>                                 
+                                    {contacts.map((contact) => {
+                                        return (
+                                            <option key={contact} >{contact}</option>
+                                        )
+                                    })}                                
                                 </datalist>
                                 <label htmlFor="subject">Subject</label>
                                 <input type="text" list="subject-list" name="subject" id="subject" ref={subjectInputElement}/>
                                 <datalist id="subject-list">
-                                    {/* this needs to be come a data query */}
-                                    <option>Tactical laser</option>
-                                    <option>DUSPEN</option>                                 
+                                    {subjects.map((subject) => {
+                                        return (
+                                            <option key={subject}>{subject}</option>
+                                        )
+                                    })}                              
                                 </datalist>
                                 <label htmlFor="date">Meeting Date</label>
                                 <input type="date" name="date" id="date" ref={dateInputElement} />

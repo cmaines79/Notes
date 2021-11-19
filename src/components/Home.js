@@ -18,7 +18,7 @@ import '../assets/styles/Home.css';
 const Home = ({ userStatusForHeader, signInUser, signOutUser, userName, profilePicUrl, db }) => {
     // TO-DO:
         // do I want to create useEffects for contact, subject & meeting to clear the useStates?
-        
+
     
     
     // vars
@@ -30,6 +30,7 @@ const Home = ({ userStatusForHeader, signInUser, signOutUser, userName, profileP
     const [subjects, setSubjects] = useState([]);
     const [meetings, setMeetings] = useState([]);
     const [activeNote, setActiveNote] = useState([]);
+    const [noteToggle, setNoteToggle] = useState(0);
 
     // supporting functions
     const getFireBaseNotesDoc = async() => {
@@ -58,7 +59,12 @@ const Home = ({ userStatusForHeader, signInUser, signOutUser, userName, profileP
     const getContacts = () => {
         const tempArr = [];
         firebaseNotes.forEach((item) => {
-            tempArr.push(item.contact)
+            // remove duplicate values
+            if(tempArr.includes(item.contact)) {
+
+            } else {
+                tempArr.push(item.contact);
+            }
         })
         setContacts(tempArr);
     }
@@ -70,7 +76,12 @@ const Home = ({ userStatusForHeader, signInUser, signOutUser, userName, profileP
         // setSubjects from the filter
         const tempArr = [];
         a.forEach((item) => {
-            tempArr.push(item.subject);
+            // remove duplicate values
+            if(tempArr.includes(item.subject)) {
+
+            } else {
+                tempArr.push(item.subject);
+            }
         })
         setSubjects(tempArr);
     }
@@ -98,6 +109,13 @@ const Home = ({ userStatusForHeader, signInUser, signOutUser, userName, profileP
         
         // setActiveNote
         setActiveNote(a);
+
+        // toggle noteToggle to display the activeNote
+        setNoteToggle(1);
+    }
+
+    const setNoteToggleToFalse = () => {
+        setNoteToggle(0);
     }
     
     // effects
@@ -117,7 +135,7 @@ const Home = ({ userStatusForHeader, signInUser, signOutUser, userName, profileP
                 <Contact contacts={contacts} updateSubjects={updateSubjects}/>
                 <Subject subjects={subjects} updateMeetings={updateMeetings}/>
                 <Meeting meetings={meetings} updateNotes={updateNotes}/>
-                <Notes db={db} activeNote={activeNote} />
+                <Notes db={db} getFireBaseNotesDoc={getFireBaseNotesDoc} updateSubjects={updateSubjects} contacts={contacts} subjects={subjects} setNoteToggleToFalse={setNoteToggleToFalse} activeNote={activeNote} noteToggle={noteToggle} firebaseNotes={firebaseNotes} />
             </div>
             <Foot/>
         </div>
