@@ -1,8 +1,8 @@
 // imports
 import React from 'react'
 import { useRef } from 'react';
-import './Head.css';
-import logo from '../../img/papertrail-2-logo.png';
+import '../assets/styles/Head.css';
+import logo from '../assets/img/papertrail-2-logo.png';
 import { NavLink } from 'react-router-dom';
 
 const Head = ({ userStatusForHeader, signInUser, signOutUser, userName, profilePicUrl }) => {

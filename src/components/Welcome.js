@@ -1,8 +1,8 @@
 import React from 'react';
-import Head from '../head/Head';
-import Foot from '../foot/Foot';
-import logo from '../../img/papertrail-2-logo.png';
-import './Welcome.css';
+import Head from './Head';
+import Foot from './Foot';
+import logo from '../assets/img/papertrail-2-logo.png';
+import '../assets/styles/Welcome.css';
 
 const Welcome = ({ userStatusForHeader, signInUser, signOutUser, userName, profilePicUrl }) => {   
     return (

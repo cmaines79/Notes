@@ -1,8 +1,10 @@
 import React from 'react';
 import { useRef, useState } from 'react';
-import './Notes.css';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
+import '../assets/styles/Notes.css';
 
-const Notes = () => {
+const Notes = ({ db }) => {
     // TO-DO
         // New Note Button
         // get data from firebase to populate the contact table
@@ -21,6 +23,9 @@ const Notes = () => {
     const ourTeamElement = useRef();
     const theirTeamElement = useRef();
     const notesElement = useRef();
+
+    // vars
+    const user = getAuth().currentUser.uid;
 
     // states
     const [ourTeam, setOurTeam] = useState([]);
@@ -74,23 +79,84 @@ const Notes = () => {
         }
     }
 
-    const saveNotes = (e) => {
+    const updateRecordCounter = (a) => {
+        // updates the recordCounter doc in FireStore
+        setDoc(doc(db, user, "recordCounter"), {
+            recordCount: a,
+        })
+    }
+
+    const getRecordCount = async() => {
+        try {
+            // setting docRef specifically to the recordCounter document
+            const docRef = doc(db, user, "recordCounter");
+            const docSnap = await getDoc(docRef);
+
+            // adding one to the counter for this instance 
+            const newRecordCount = docSnap.data().recordCount + 1;
+
+            // updating the db with the new value.
+            updateRecordCounter(newRecordCount);
+
+            // returning the value needed
+            return newRecordCount;
+        } catch (e) {
+            console.error(e);
+        }
+    }    
+
+    const saveNotes = async(e) => {
         e.preventDefault();
-        // useRef() to get the content from all of the input fields
-        // save them to a formatted JSON Object
         // upload to firebase
         // clear attendee arrays
-        const meetingNotes = {
-            "meetingId": 1,
-            "contact": contactInputElement.current.value,
-            "subject": subjectInputElement.current.value,
-            "meetingDate": dateInputElement.current.value,
-            "ourTeam": ourTeam,
-            "theirTeam": theirTeam,
-            "notes": notesElement.current.value,
-        }
+        // make comments so this make sense to me later
+        const meetingNotes = [
+        {
+            meetingId: await getRecordCount(),
+            contact: contactInputElement.current.value,
+            subject: subjectInputElement.current.value,
+            meetingDate: dateInputElement.current.value,
+            ourTeam: ourTeam,
+            theirTeam: theirTeam,
+            notes: notesElement.current.value,
+        },
+        {
+            meetingId: await getRecordCount(),
+            contact: contactInputElement.current.value,
+            subject: subjectInputElement.current.value,
+            meetingDate: dateInputElement.current.value,
+            ourTeam: ourTeam,
+            theirTeam: theirTeam,
+            notes: notesElement.current.value,
+        },
+        ]
 
-        console.log(meetingNotes);
+        // get current notes from fireStore
+        // const docSnap = await getDoc(doc(db, user, "notes"));
+
+        // check to see if the note document exists
+        // if (docSnap.exists()) {
+        //     let currentNotes = docSnap.data().meetingNotes;
+            
+        //     currentNotes.forEach((note) => {
+        //         FireStoreNotes.push(note);
+        //     })
+
+        //     console.log(FireStoreNotes);
+            
+        // } else {
+        //     alert("No data exits");
+        // }
+
+        try{
+            await setDoc(doc(db, user, "notes"), {
+               meetingNotes:meetingNotes
+            })
+
+        } catch (e) {
+            console.error(e);
+        }
+        
     }
 
     return (

@@ -1,5 +1,5 @@
 import React from 'react'
-import './Subject.css';
+import '../assets/styles/Subject.css';
 
 const Subject = () => {
     return (

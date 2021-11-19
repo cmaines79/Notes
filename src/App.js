@@ -7,11 +7,11 @@ import { initializeApp } from 'firebase/app';
 // importing react components
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { useState } from 'react';
-import Home from './components/home/Home';
-import Welcome from './components/welcome/Welcome';
+import Home from './components/Home'
+import Welcome from './components/Welcome';
 
 // importing css and other variables
-import photo from './img/profile_placeholder.png';
+import photo from './assets/img/profile_placeholder.png';
 import './App.css';
 
 function App() {
@@ -120,19 +120,6 @@ function App() {
       } 
     } catch (e) {
       console.error("Error getting document: ", e);
-    }
-  }
-
-  const getTestData = async() => {
-    try {
-      const querySnapshot = await getDocs(collection(db, getAuth().currentUser.uid));
-      querySnapshot.forEach((doc) => {
-        let a = doc.data();
-
-        console.log(a);
-      })
-    } catch (e) {
-      console.log(e);
     }
   }
   

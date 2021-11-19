@@ -1,21 +1,21 @@
 import React from 'react';
-import Head from '../head/Head';
-import Foot from '../foot/Foot';
-import Contact from '../contact/Contact';
-import Subject from '../subject/Subject';
-import Meeting from '../meeting/Meeting';
-import Notes from '../notes/Notes';
-import './Home.css';
+import Head from './Head';
+import Foot from './Foot';
+import Contact from './Contact';
+import Subject from './Subject';
+import Meeting from './Meeting';
+import Notes from './Notes';
+import '../assets/styles/Home.css';
 
-const Home = ({ userStatusForHeader, signInUser, signOutUser, userName, profilePicUrl }) => {
+const Home = ({ userStatusForHeader, signInUser, signOutUser, userName, profilePicUrl, db }) => {
     return (
         <div className="App">
             <Head userStatusForHeader={userStatusForHeader} signInUser={signInUser} signOutUser={signOutUser} userName={userName} profilePicUrl={profilePicUrl}/>
             <div className="main container">
-                <Contact/>
+                <Contact />
                 <Subject/>
                 <Meeting/>
-                <Notes/>
+                <Notes db={db}/>
             </div>
             <Foot/>
         </div>

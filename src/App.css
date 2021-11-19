@@ -29,15 +29,14 @@
   font-family: 'Poppins', sans-serif;
 }
 
-/* modes */
-.dark-mode {
+modes .dark-mode {
   /* assigns a global dark mode with hue rotation */
-  filter: invert(1) hue-rotate(180deg);
+  /* filter: invert(1) hue-rotate(180deg); */
 }
 
 .invert {
   /* attach this class to object we what to be uneffect by the dark mode */
-  filter: invert(1) hue-rotate(180deg);
+  /* filter: invert(1) hue-rotate(180deg); */
 }
 
 #root {
@@ -48,11 +47,6 @@
   /* REMOVE THIS WHEN THE BACKEND IS CONNECTED */
   background-color: var(--color-dark-black-primary);
   color: var(--color-dark-font-white);
-}
-
-/* modes */
-.dark-mode {
-  filter: invert(1) hue-rotation(180deg);
 }
 
 .container {
@@ -70,15 +64,3 @@ button {
 button:hover {
   cursor: pointer;
 }
-
-/* .dark-mode {
-  DARK AND LIGHT MODES SHOULD BE TIED TO #ROOT!
-  background-color: var(--color-dark-black-primary);
-  color: var(--color-dark-font-ltgrey);
-} */
-
-/* .light-mode {
-  DARK AND LIGHT MODES SHOULD BE TIED TO #ROOT!
-  background-color: var(--color-light-white-primary);
-  color: var(--color-light-font-black);
-} */

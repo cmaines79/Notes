@@ -1,5 +1,5 @@
 import React from 'react'
-import './Meeting.css';
+import '../assets/styles/Meeting.css';
 
 const Meeting = () => {
     return (
