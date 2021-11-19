@@ -2,17 +2,22 @@ import React from 'react'
 
 import '../assets/styles/Contact.css';
 
-const Contact = () => {
+const Contact = ({ contacts, updateSubjects }) => {
+
+    const getSubjectList = (e) => {
+        updateSubjects(e.target.innerHTML);
+    }
 
     return (
         <div>
             <h5>Contact</h5>
             <div className="list-of-contacts">
-                {/* Insert map here */}
                 <div>
-                    <button className="list-btn">BAE Hawaii</button>
-                    <button className="list-btn">BAE Austin</button>
-                    <button className="list-btn">OPOTEK</button>
+                    {contacts.map((contact) => {
+                        return (
+                            <button key={contact} className="list-btn" onClick={getSubjectList}>{contact}</button>
+                        )
+                    })}
                 </div>
             </div>
         </div>

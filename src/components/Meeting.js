@@ -1,14 +1,21 @@
 import React from 'react'
 import '../assets/styles/Meeting.css';
 
-const Meeting = () => {
+const Meeting = ({ meetings, updateNotes }) => {
+    const updateNoteContent = (e) => {
+        console.log(`target id is: ${e.target.id}`);
+        updateNotes(e.target.id);
+    }
+
     return (
         <div>
             <h5>Meeting</h5>
             <div className="list-of-meetings">
-                <button className="list-btn">Meeting 1</button>
-                <button className="list-btn">Meeting 2</button>
-                <button className="list-btn">Meeting 3</button>
+                {meetings.map((meeting) => {
+                    return (
+                        <button key={meeting.meetingId} id={meeting.meetingId} className="list-btn" onClick={updateNoteContent} >{meeting.meetingDate}</button>
+                    )
+                })}
             </div>
         </div>
     )

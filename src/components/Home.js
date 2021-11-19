@@ -16,12 +16,20 @@ import Notes from './Notes';
 import '../assets/styles/Home.css';
 
 const Home = ({ userStatusForHeader, signInUser, signOutUser, userName, profilePicUrl, db }) => {
+    // TO-DO:
+        // do I want to create useEffects for contact, subject & meeting to clear the useStates?
+        
+    
+    
     // vars
     const user = getAuth().currentUser.uid;
 
     // states
     const [firebaseNotes, setFireBaseNotes] = useState([]);
+    const [contacts, setContacts] = useState([]);
     const [subjects, setSubjects] = useState([]);
+    const [meetings, setMeetings] = useState([]);
+    const [activeNote, setActiveNote] = useState([]);
 
     // supporting functions
     const getFireBaseNotesDoc = async() => {
@@ -46,6 +54,51 @@ const Home = ({ userStatusForHeader, signInUser, signOutUser, userName, profileP
             setFireBaseNotes(notesFromFirebase);
         })
     }
+
+    const getContacts = () => {
+        const tempArr = [];
+        firebaseNotes.forEach((item) => {
+            tempArr.push(item.contact)
+        })
+        setContacts(tempArr);
+    }
+
+    const updateSubjects = (target) => {
+        // filter the firebaseNotes by the contact
+        let a = firebaseNotes.filter((item) => item.contact === target);
+        
+        // setSubjects from the filter
+        const tempArr = [];
+        a.forEach((item) => {
+            tempArr.push(item.subject);
+        })
+        setSubjects(tempArr);
+    }
+
+    const updateMeetings = (target) => {
+        // filter the firebaseNotes by the subjects
+        let a = firebaseNotes.filter((item) => item.subject === target);
+
+        // setMeetings from the filter
+        const tempArr = [];
+        a.forEach((item) => {
+            tempArr.push(
+                {
+                    meetingDate: item.meetingDate,
+                    meetingId: item.meetingId,
+                }
+            );
+        })
+        setMeetings(tempArr);
+    }
+
+    const updateNotes = (target) => {
+        // filter firebaseNotes by the id
+        let a = firebaseNotes.filter((item) => item.meetingId == target);
+        
+        // setActiveNote
+        setActiveNote(a);
+    }
     
     // effects
     useEffect(() => {
@@ -53,14 +106,18 @@ const Home = ({ userStatusForHeader, signInUser, signOutUser, userName, profileP
         getFireBaseNotesDoc();
     },[]);
 
+    useEffect(() => {
+        getContacts();
+    },[firebaseNotes])
+
     return (
         <div className="App">
             <Head userStatusForHeader={userStatusForHeader} signInUser={signInUser} signOutUser={signOutUser} userName={userName} profilePicUrl={profilePicUrl}/>
             <div className="main container">
-                <Contact firebaseNotes={firebaseNotes}/>
-                <Subject />
-                <Meeting />
-                <Notes db={db} />
+                <Contact contacts={contacts} updateSubjects={updateSubjects}/>
+                <Subject subjects={subjects} updateMeetings={updateMeetings}/>
+                <Meeting meetings={meetings} updateNotes={updateNotes}/>
+                <Notes db={db} activeNote={activeNote} />
             </div>
             <Foot/>
         </div>

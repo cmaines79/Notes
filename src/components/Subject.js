@@ -1,14 +1,20 @@
 import React from 'react'
 import '../assets/styles/Subject.css';
 
-const Subject = () => {
+const Subject = ({ subjects,  updateMeetings }) => {
+    const updateMeetingList = (e) => {
+        updateMeetings(e.target.innerHTML);
+    }
+
     return (
         <div>
             <h5>Subject</h5>
             <div className="list-of-subjects">
-                <button className="list-btn">Project 1</button>
-                <button className="list-btn">Project 2</button>
-                <button className="list-btn">Project 3</button>
+                {subjects.map((subject) => {
+                    return (
+                        <button key={subject} className="list-btn" onClick={updateMeetingList}>{subject}</button>
+                    )
+                })}
             </div>
         </div>
     )

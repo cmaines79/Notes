@@ -4,7 +4,7 @@ import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import '../assets/styles/Notes.css';
 
-const Notes = ({ db }) => {
+const Notes = ({ db, activeNote }) => {
     // TO-DO
         // New Note Button
         // get data from firebase to populate the contact table
@@ -12,6 +12,7 @@ const Notes = ({ db }) => {
         // useEffect to set the document title with the subject? (on exit of input field?)
         // onSave
             // useRef() to get the content from all of the input fields
+            // if note has an ID, save against ID, else save with new ID
             // save them to a formatted JSON Object
             // upload to firebase
             // clear attendee arrays
