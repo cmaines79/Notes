@@ -1,7 +1,7 @@
 // import firebase files
 import { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
 import { getFirebaseConfig } from './firebase-config';
-import { getFirestore, collection, addDoc, getDocs } from 'firebase/firestore';
+import { getFirestore, collection, setDoc, doc, getDocs } from 'firebase/firestore';
 import { initializeApp } from 'firebase/app';
 
 // importing react components
@@ -15,9 +15,6 @@ import photo from './assets/img/profile_placeholder.png';
 import './App.css';
 
 function App() {
-  // TO-DO:
-    // logic to generate default JSON formated Object if the user is new.
-
   // states
   const [userStatusForHeader, setUserStatusForHeader] = useState(0);
   const [userName, setUserName] = useState('J. Doe');
@@ -29,7 +26,7 @@ function App() {
     await signInWithPopup(getAuth(), provider);
 
     // see if user is a new user in our database.  If so, create default JSON Ojbect
-    isUserNewFirebaseUser(getAuth().currentUser.uid);
+    isUserNewFirebaseUser(getUserUid());
   }
 
   // Google Sign-out
@@ -78,42 +75,31 @@ function App() {
       setUserStatusForHeader(0);
     }
   }
-  // console.log(getAuth().currentUser.uid);
 
-  // const test = async() => {
-  //   try {
-  //     const docRef = await addDoc(collection(db, "users"), {
-  //       first: "Ada",
-  //       last: "Lovelace",
-  //       born: 1815
-  //     });
-  //     console.log("Document written with ID: ", docRef.id);
-  //   } catch (e) {
-  //     console.error("Error adding document: ", e);
-  //   }
-  // }
-
-  const defaultCollection = () => {
-    const defaultJSON = {
-      user: {
-        userId: getUserUid(),
-        userName: getUserName(),
-        userEmail: getUserEmail(),
-      },
-      notes: [],
-    }
-
-    return defaultJSON;
-  }
-
+  // is the user a new user to our FireBase db?
   const isUserNewFirebaseUser = async(user) => {
     try {
       const querySnapshot = await getDocs(collection(db, user));
-      if(querySnapshot.length === undefined) {
+      // if the user is not in the firebase db
+      if(querySnapshot.size === 0) {
         // create the new user and JSON formatted Object
         try {
-          const docRef = await addDoc(collection(db, user), defaultCollection());
-          console.log("Document written with ID: ", docRef.id);
+          // setting up the "user" document structure
+          setDoc(doc(db, user, "user"), {
+            userId: getUserUid(),
+            userName: getUserName(),
+            userEmail: getUserEmail(),
+          });
+
+        // setting up the "reoordCounter" document structure
+          setDoc(doc(db, user, "recordCounter"), {
+            recordCount: 1,
+          })
+
+          // setting up the "notes" document structure
+          setDoc(doc(db, user, "notes"), {
+            notes: [],
+          })
         } catch (e) {
           console.error("Error adding document: ", e);
         }
@@ -128,8 +114,6 @@ function App() {
   const app = initializeApp(firebaseAppConfig);
   const db = getFirestore(app);
   initFirebaseAuth();
-
-  // getTestData();
 
   return (
     <Router>
