@@ -98,7 +98,7 @@ function App() {
 
           // setting up the "notes" document structure
           setDoc(doc(db, user, "notes"), {
-            notes: [],
+            meetingNotes: [],
           })
         } catch (e) {
           console.error("Error adding document: ", e);

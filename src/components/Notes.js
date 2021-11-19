@@ -6,10 +6,9 @@ import '../assets/styles/Notes.css';
 
 const Notes = ({ db, activeNote, getFireBaseNotesDoc, noteToggle, setNoteToggleToFalse, contacts, subjects, updateSubjects, firebaseNotes }) => {
     // TO-DO
-        // New Note Button
-        // get data from firebase to populate the contact table
-        // get data from firebase to populate the subject table by customer
-        // useEffect to set the document title with the subject? (on exit of input field?)
+        // onSave => clear data or create the trail...?
+        // Do want lookup fields for attendees?
+        
 
 
     // refs

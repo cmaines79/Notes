@@ -29,9 +29,10 @@
   font-family: 'Poppins', sans-serif;
 }
 
-modes .dark-mode {
+/* modes  */
+.dark-mode {
   /* assigns a global dark mode with hue rotation */
-  /* filter: invert(1) hue-rotate(180deg); */
+  filter: invert(1) hue-rotate(180deg);
 }
 
 .invert {

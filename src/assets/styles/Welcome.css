@@ -5,7 +5,7 @@
 }
 
 .welcome-message {
-  width: 75%;
+  width: 50%;
   height: auto;
   display: flex;
   flex-direction: column;
@@ -19,6 +19,7 @@
 
 .welcome-message h3 {
   margin-bottom: 1.5625rem;
+  text-align: center;
 }
 
 .welcome-message h2 {

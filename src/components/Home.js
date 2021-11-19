@@ -16,11 +16,6 @@ import Notes from './Notes';
 import '../assets/styles/Home.css';
 
 const Home = ({ userStatusForHeader, signInUser, signOutUser, userName, profilePicUrl, db }) => {
-    // TO-DO:
-        // do I want to create useEffects for contact, subject & meeting to clear the useStates?
-
-    
-    
     // vars
     const user = getAuth().currentUser.uid;
 
@@ -36,23 +31,26 @@ const Home = ({ userStatusForHeader, signInUser, signOutUser, userName, profileP
     const getFireBaseNotesDoc = async() => {
         await getDoc(doc(db, user, "notes"))
         .then(snapshot => {
-            // setContacts(snapshot.data().meetingNotes);
-            const data = snapshot.data().meetingNotes;
-            const notesFromFirebase = [];
-            data.forEach((doc) => {
-                notesFromFirebase.push(
-                    {
-                        contact: doc.contact,
-                        subject: doc.subject,
-                        meetingDate : doc.meetingDate,
-                        meetingId: doc.meetingId,
-                        notes: doc.notes,
-                        ourTeam: doc.ourTeam,
-                        theirTeam: doc.theirTeam,
-                    }
-                );
-            })
-            setFireBaseNotes(notesFromFirebase);
+            // see if the notes are empty first!
+            if(snapshot.data().meetingNotes.length > 0) {
+                 // setContacts(snapshot.data().meetingNotes);
+                const data = snapshot.data().meetingNotes;
+                const notesFromFirebase = [];
+                data.forEach((doc) => {
+                    notesFromFirebase.push(
+                        {
+                            contact: doc.contact,
+                            subject: doc.subject,
+                            meetingDate : doc.meetingDate,
+                            meetingId: doc.meetingId,
+                            notes: doc.notes,
+                            ourTeam: doc.ourTeam,
+                            theirTeam: doc.theirTeam,
+                        }
+                    );
+                })
+                setFireBaseNotes(notesFromFirebase);
+            }
         })
     }
 
